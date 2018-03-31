@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-title>Registro</mat-card-title>
+    <mat-card-content>
+
+        <form class="example-form" #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+            <mat-form-field class="example-full-width">
+                <input type="email" matInput placeholder="Email" required #email="ngModel" name="email" [(ngModel)]="user.email" ngModel [email]="true">
+            </mat-form-field>
+        
+            <mat-form-field class="example-full-width">
+                <input type="password" matInput placeholder="Password" required #password="ngModel" name="password" [(ngModel)]="user.password">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <input type="password" matInput placeholder="Repeat Password" required #repeatpassword="ngModel" name="repeatpassword" [(ngModel)]="repeatPassword">
+            </mat-form-field>
+
+            <button color="primary" type="submit" mat-raised-button>Registrarse</button>
+            <a color="accent" type="button" mat-raised-button [routerLink]="['/login']">Regresar</a>
+        </form>
+
+    </mat-card-content>
+</mat-card>
