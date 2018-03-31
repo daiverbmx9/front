@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from '../../services/global.service';
 
 @Injectable()
-export class UserService
+export class TaskService
 {
     // Url of API
     private url: string;
