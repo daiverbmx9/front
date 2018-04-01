@@ -1,0 +1,84 @@
+<!-- Nav bar -->
+<mat-toolbar color="primary">
+    <div class="nav" fxLayout="row" fxShow="false" fxShow.gt-sm>
+        <span mat-button *ngIf="user">{{user.email}}</span>
+        <button mat-button (click)="logOut()">Salir</button>
+    </div>
+</mat-toolbar>
+<!-- Content -->
+<mat-card>
+    <mat-card-title class="title-header">
+        <span>Lista de tareas</span>
+        <mat-icon class="text-success icon icon-add" (click)="openDialog()">add_circle_outline</mat-icon>
+    </mat-card-title>
+    <mat-card-subtitle>
+        <div class="alert alert-info" *ngIf="emptyTask && showAlerts['info'] == true">
+            <span>
+                No hay tareas para mostrar, crea una haciendo click en el icono <mat-icon class="text-success icon icon-add" (click)="openDialog()">add_circle_outline</mat-icon>
+            </span>
+            <mat-icon class="icon alert-icon" (click)="hideAlert('info')">clear</mat-icon>
+        </div>
+        <div class="alert alert-warning" *ngIf="forExpirate > 0  && showAlerts['warning'] == true">
+            <span>
+                Tiene {{ forExpirate }} {{strTask}} apunto de expirar, estas se distinguen por el icono 
+                <mat-icon class="text-danger icon icon-alert">add_alarm</mat-icon> al lado de su nombre
+            </span>
+            <mat-icon class="icon alert-icon" (click)="hideAlert('warning')">clear</mat-icon>
+        </div>
+        <div class="alert alert-danger" *ngIf="expirate > 0 && showAlerts['danger'] == true">
+            <span>Tiene tareas expiradas, puede verlas en la opción "vencida", del menu inferior de la tabla.</span>
+            <mat-icon class="icon alert-icon" (click)="hideAlert('danger')">clear</mat-icon>
+        </div>
+    </mat-card-subtitle>
+    <hr/>
+    <mat-card-content>
+            <!-- Modal -->
+            <div class="modal-fade" *ngIf="openModal">
+                <div class="modal-content">
+                    <mat-card>
+                        <mat-card-title class="title-header">
+                            <span>Nueva tarea</span>
+                        </mat-card-title>
+                        <hr/>
+                        <mat-card-content>
+                                <form class="example-form" #taskForm="ngForm" (ngSubmit)="save(taskForm)">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" matInput placeholder="Nombre" required #name="ngModel" name="name" [(ngModel)]="_task.name">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select placeholder="Prioridad" required #priority="ngModel" name="priority" [(ngModel)]="_task.priority">
+                                                <mat-option *ngFor="let prioty of _priority" [value]="prioty.name">
+                                                    {{ prioty.name }}
+                                                </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" required #expiration="ngModel" name="expiration" [(ngModel)]="_task.expiration">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker touchUi="true" #picker></mat-datepicker>
+                                    </mat-form-field>
+                        
+                                    <button color="primary" type="submit" mat-raised-button>Confirmar</button>
+                                    <a color="accent" type="button" mat-raised-button (click)="closeDialog()">Cerrar</a>
+                                </form>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+            <mat-tab-group>
+                <mat-tab *ngFor="let state of states" label="{{state.description}}">
+                    <div *ngFor="let task of tasks">
+                        <div *ngIf="task.state_id == state.id">
+                            <mat-selection-list #tasks>
+                                <mat-list-option (click)="action(task)">
+                                    <h3 matLine> {{task.name}} <mat-icon *ngIf="compareDate(task.expiration) == 1 && task.state_id == 1" class="text-danger icon icon-alert">add_alarm</mat-icon></h3>
+                                </mat-list-option>
+                            </mat-selection-list>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+    </mat-card-content>
+</mat-card>

@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 // Impor user model for register new user
-import { User } from './models/user';
-import { UserService } from './services/user.service';
+import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
 import { NgForm, EmailValidator } from '@angular/forms';
 
 @Component({
   selector: 'f-login',
-  templateUrl: 'login.template.html',
+  templateUrl: './login.template.html',
   styles: [
   ],
   providers: [UserService, EmailValidator]
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
         }
 
         localStorage.setItem('user', JSON.stringify(response['user']));
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       }, error => 
       {
         console.log(error);

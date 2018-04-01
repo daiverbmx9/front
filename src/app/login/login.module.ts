@@ -13,7 +13,8 @@ import
 } from '@angular/material';
 
 import { LoginRoutingModule } from './login-routing';
-import { LoginComponent } from './login.component';
+import { LoginMasterComponent } from './login-master.component';
+import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
@@ -28,6 +29,6 @@ import { RegisterComponent } from './components/register/register.component';
     MatFormFieldModule,
     MatSnackBarModule
   ],
-  declarations: [LoginComponent, RegisterComponent]
+  declarations: [LoginMasterComponent, LoginComponent, RegisterComponent]
 })
 export class LoginModule { }
